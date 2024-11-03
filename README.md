@@ -32,4 +32,4 @@ go-service/
 └── go.mod                   # Go module definition
 ```
 
-For detailed instructions, check the [Medium](https://medium.com/@ansxuman/building-cross-platform-system-services-in-go-a-step-by-step-guide-5784f96098b4).
+For detailed instructions, check the [Medium](https://medium.com/@ansxuman/building-cross-platform-system-services-in-go-a-step-by-step-guide-5784f96098b4) article for a step-by-step guide.
