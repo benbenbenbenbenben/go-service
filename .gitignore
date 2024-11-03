@@ -1,0 +1,4 @@
+# go-service binary
+go-service
+*.exe
+*.bin
