@@ -22,10 +22,10 @@ go-service/
 │       └── main.go          # Main entry point with CLI flags and command handling
 ├── internal/
 │   ├── service/
-│   │   └── service.go       # Core service implementation (moved from root)
-│   └── platform/            # Platform-specific implementations (renamed from services/)
+│   │   └── service.go       # Core service implementation
+│   └── platform/            # Platform-specific implementations
 │       ├── config.go        # Configuration constants
-│       ├── service.go       # Cross-platform service interface and utilities
+│       ├── service.go       # Cross-platform service interface
 │       ├── windows.go       # Windows-specific service management
 │       ├── linux.go         # Linux-specific systemd service management
 │       └── darwin.go        # macOS-specific launchd service management
