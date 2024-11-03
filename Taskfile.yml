@@ -23,11 +23,26 @@ tasks:
       - mkdir -p {{.BUILD_DIR}}
       - GOOS=linux GOARCH=amd64 go build -v -ldflags "-s -w" -o {{.BUILD_DIR}}/{{.BINARY_NAME}} ./cmd/service
 
-  build:darwin:
-    desc: Build for macOS
+  build:darwin-amd64:
+    desc: Build for macOS (Intel)
     cmds:
       - mkdir -p {{.BUILD_DIR}}
-      - GOOS=darwin GOARCH=amd64 go build -v -ldflags "-s -w" -o {{.BUILD_DIR}}/{{.BINARY_NAME}} ./cmd/service
+      - GOOS=darwin GOARCH=amd64 go build -v -ldflags "-s -w" -o {{.BUILD_DIR}}/{{.BINARY_NAME}}-amd64 ./cmd/service
+
+  build:darwin-arm64:
+    desc: Build for macOS (Apple Silicon)
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
+      - GOOS=darwin GOARCH=arm64 go build -v -ldflags "-s -w" -o {{.BUILD_DIR}}/{{.BINARY_NAME}}-arm64 ./cmd/service
+
+  build:darwin:
+    desc: Build for macOS (Universal Binary)
+    cmds:
+      - task: build:darwin-amd64
+      - task: build:darwin-arm64
+      - mkdir -p {{.BUILD_DIR}}
+      - lipo -create -output {{.BUILD_DIR}}/{{.BINARY_NAME}} {{.BUILD_DIR}}/{{.BINARY_NAME}}-amd64 {{.BUILD_DIR}}/{{.BINARY_NAME}}-arm64
+      - rm {{.BUILD_DIR}}/{{.BINARY_NAME}}-amd64 {{.BUILD_DIR}}/{{.BINARY_NAME}}-arm64
 
   build:all:
     desc: Build for all platforms
