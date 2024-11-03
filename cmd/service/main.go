@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"go-service/internal/platform"
 	"go-service/internal/service"
@@ -65,7 +64,7 @@ func handleCommand(install, uninstall, status, start, stop, runWorker bool) erro
 }
 
 func runService() error {
-	svc, err := service.New(5 * time.Minute)
+	svc, err := service.New()
 	if err != nil {
 		return fmt.Errorf("failed to create service: %w", err)
 	}

@@ -14,15 +14,14 @@ import (
 )
 
 type Service struct {
-	logFile  string
-	interval time.Duration
-	stop     chan struct{}
-	wg       sync.WaitGroup
-	started  bool
-	mu       sync.Mutex
+	logFile string
+	stop    chan struct{}
+	wg      sync.WaitGroup
+	started bool
+	mu      sync.Mutex
 }
 
-func New(interval time.Duration) (*Service, error) {
+func New() (*Service, error) {
 	installDir := platform.GetInstallDir()
 	if installDir == "" {
 		return nil, fmt.Errorf("unsupported operating system: %s", runtime.GOOS)
@@ -31,9 +30,8 @@ func New(interval time.Duration) (*Service, error) {
 	logFile := filepath.Join(installDir, "logs", platform.LogFileName)
 
 	return &Service{
-		logFile:  logFile,
-		interval: interval,
-		stop:     make(chan struct{}),
+		logFile: logFile,
+		stop:    make(chan struct{}),
 	}, nil
 }
 
@@ -53,7 +51,6 @@ func (s *Service) Start(ctx context.Context) error {
 	s.wg.Add(1)
 	go s.run(ctx)
 
-	time.Sleep(100 * time.Millisecond)
 	return nil
 }
 
@@ -77,11 +74,14 @@ func (s *Service) Stop() error {
 
 func (s *Service) run(ctx context.Context) {
 	defer s.wg.Done()
+	log.Printf("Service started, logging to: %s\n", s.logFile)
 
-	ticker := time.NewTicker(s.interval)
+	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 
-	log.Printf("Service started, logging to: %s\n", s.logFile)
+	if err := s.writeLog(); err != nil {
+		log.Printf("Error writing initial log: %v\n", err)
+	}
 
 	for {
 		select {
