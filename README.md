@@ -1,6 +1,6 @@
 # go-service
 
-A minimal boilerplate for building cross-platform system services in Go.
+This project provides a clean, modular architecture for creating system services that can run across different platforms. It handles platform-specific service management while maintaining a consistent interface for service operations.
 
 ![GO-Service](https://github.com/user-attachments/assets/ccff528d-9897-4cd6-9e89-694feb11ad7c)
 
@@ -13,8 +13,6 @@ A minimal boilerplate for building cross-platform system services in Go.
 - **Build Automation**: TaskFile for consistent build and management commands
 
 ## Project Overview
-
-This project provides a clean, modular architecture for creating system services that can run across different platforms. It handles platform-specific service management while maintaining a consistent interface for service operations.
 
 ```bash
 go-service/
