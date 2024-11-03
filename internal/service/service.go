@@ -76,7 +76,7 @@ func (s *Service) run(ctx context.Context) {
 	defer s.wg.Done()
 	log.Printf("Service started, logging to: %s\n", s.logFile)
 
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(5 * time.Minute)
 	defer ticker.Stop()
 
 	if err := s.writeLog(); err != nil {
