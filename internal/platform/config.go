@@ -8,6 +8,8 @@ import (
 	"runtime"
 )
 
+// Update these constants with your own service configuration details.
+// Replace the service name, display name, description and log file name as needed.
 const (
 	ServiceName    = "go-service"
 	ServiceDisplay = "Go Service"
@@ -18,11 +20,11 @@ const (
 func GetInstallDir() string {
 	switch runtime.GOOS {
 	case "darwin":
-		return "/usr/local/opt/go-service"
+		return "/usr/local/opt/" + ServiceName
 	case "linux":
-		return "/opt/go-service"
+		return "/opt/" + ServiceName
 	case "windows":
-		return filepath.Join(os.Getenv("ProgramData"), "go-service")
+		return filepath.Join(os.Getenv("ProgramData"), ServiceName)
 	default:
 		return ""
 	}
