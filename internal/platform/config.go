@@ -9,7 +9,9 @@ import (
 )
 
 // Update these constants with your own service configuration details.
-// Replace the service name, display name, description and log file name as needed.
+// Replace the service name, display name, and description as needed.
+// LogFileName is optional and is used to demonstrate an example service core logic
+// that appends text to a file periodically.
 const (
 	ServiceName    = "go-service"
 	ServiceDisplay = "Go Service"
