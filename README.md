@@ -9,7 +9,8 @@ This project provides a clean, modular architecture for creating system services
 
 - **Clean Architecture**: Modular design with platform-agnostic core
 - **Cross-Platform**: Supports Windows, Linux and macOS
-- **Service Management**: Easy installation, status checking and lifecycle management 
+- **Service Management**: Easy installation, status checking and lifecycle management
+- **No Dependency**: No dependency on external libraries
 - **Build Automation**: TaskFile for consistent build and management commands
 
 ## Project Overview
