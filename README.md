@@ -30,7 +30,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/benbenbenbenbenben/go-service/platform/service"
+	"github.com/benbenbenbenbenben/go-service/platform"
 )
 
 func main() {
@@ -38,10 +38,9 @@ func main() {
 	executablePath := "/path/to/your/executable"
 	serviceName := "YourServiceName"
 	serviceDescription := "Your Service Description"
-	logFile := "/path/to/your/service.log"
 
 	// Create a new service
-	svc, err := service.New(executablePath, serviceName, serviceDescription, logFile)
+	svc, err := platform.NewService(executablePath, serviceName, serviceDescription)
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}
