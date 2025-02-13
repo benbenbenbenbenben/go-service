@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go-service/platform"
 	"log"
 	"os"
 	"time"
+
+	gs "github.com/benbenbenbenbenben/go-service"
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 		log.Fatalf("Failed to get executable path: %v", err)
 	}
 
-	svc, err := platform.NewService(executablePath, "HelloWorldService", "A simple Hello World service")
+	svc, err := gs.NewService(executablePath, "HelloWorldService", "A simple Hello World service")
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}

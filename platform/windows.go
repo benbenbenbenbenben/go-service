@@ -9,30 +9,30 @@ import (
 	"strings"
 )
 
-type windowsService struct{
-	executablePath string
-	serviceDisplay string
-	serviceDesc string
+type WindowsService struct {
+	ExecutablePath string
+	ServiceDisplay string
+	ServiceDesc    string
 }
 
-func (s *windowsService) Install() error {
+func (s *WindowsService) Install() error {
 	installDir := s.GetInstallDir()
 	if err := os.MkdirAll(installDir, 0755); err != nil {
 		return fmt.Errorf("failed to create installation directory: %w", err)
 	}
 
-	installedBinary := filepath.Join(installDir, "bin", filepath.Base(s.executablePath))
+	installedBinary := filepath.Join(installDir, "bin", filepath.Base(s.ExecutablePath))
 	if err := os.MkdirAll(filepath.Dir(installedBinary), 0755); err != nil {
 		return fmt.Errorf("failed to create bin directory: %w", err)
 	}
 
-	if err := copyFile(s.executablePath, installedBinary); err != nil {
+	if err := copyFile(s.ExecutablePath, installedBinary); err != nil {
 		return fmt.Errorf("failed to copy binary: %w", err)
 	}
 
 	cmd := exec.Command("sc", "create", s.ServiceName(),
 		"binPath=", fmt.Sprintf("\"%s\" -run", installedBinary),
-		"DisplayName=", s.serviceDisplay,
+		"DisplayName=", s.ServiceDisplay,
 		"start=", "auto",
 		"obj=", "LocalSystem")
 
@@ -40,7 +40,7 @@ func (s *windowsService) Install() error {
 		return fmt.Errorf("failed to create service: %w", err)
 	}
 
-	descCmd := exec.Command("sc", "description", s.ServiceName(), s.serviceDesc)
+	descCmd := exec.Command("sc", "description", s.ServiceName(), s.ServiceDesc)
 	if err := descCmd.Run(); err != nil {
 		return fmt.Errorf("failed to set service description: %w", err)
 	}
@@ -51,7 +51,7 @@ func (s *windowsService) Install() error {
 	return nil
 }
 
-func (s *windowsService) Uninstall() error {
+func (s *WindowsService) Uninstall() error {
 	_ = exec.Command("sc", "stop", s.ServiceName()).Run()
 	if err := exec.Command("sc", "delete", s.ServiceName()).Run(); err != nil {
 		return fmt.Errorf("failed to delete service: %w", err)
@@ -64,7 +64,7 @@ func (s *windowsService) Uninstall() error {
 	}
 	return nil
 }
-func (s *windowsService) Status() (bool, error) {
+func (s *WindowsService) Status() (bool, error) {
 	output, err := exec.Command("sc", "query", s.ServiceName()).Output()
 	if err != nil {
 		return false, nil
@@ -72,32 +72,32 @@ func (s *windowsService) Status() (bool, error) {
 	return strings.Contains(string(output), "RUNNING"), nil
 }
 
-func (s *windowsService) Start() error {
+func (s *WindowsService) Start() error {
 	if err := exec.Command("sc", "start", s.ServiceName()).Run(); err != nil {
 		return fmt.Errorf("failed to start service: %w", err)
 	}
 	return nil
 }
 
-func (s *windowsService) Stop() error {
+func (s *WindowsService) Stop() error {
 	if err := exec.Command("sc", "stop", s.ServiceName()).Run(); err != nil {
 		return fmt.Errorf("failed to stop service: %w", err)
 	}
 	return nil
 }
 
-func (s *windowsService) GetInstallDir() string {
+func (s *WindowsService) GetInstallDir() string {
 	return filepath.Join(os.Getenv("ProgramData"), s.ServiceName())
 }
 
-func (s *windowsService) ServiceName() string {
-	return path.Base(s.executablePath)
+func (s *WindowsService) ServiceName() string {
+	return path.Base(s.ExecutablePath)
 }
 
-func (s *windowsService) ServiceDisplayName() string {
-	return s.serviceDisplay
+func (s *WindowsService) ServiceDisplayName() string {
+	return s.ServiceDisplay
 }
 
-func (s *windowsService) ServiceDescription() string {
-	return s.serviceDesc
+func (s *WindowsService) ServiceDescription() string {
+	return s.ServiceDesc
 }
