@@ -1,43 +1,116 @@
 # go-service
 
-This project provides a clean, modular architecture for creating system services that can run across different platforms. It handles platform-specific service management while maintaining a consistent interface for service operations.
+This project is a fork of [Anshuman's go-service](https://github.com/ansxuman/go-service) and provides a library for managing system services across different platforms (Windows, Linux, and macOS). It allows developers to easily install, start, stop, and uninstall services from their Go applications.
 
-![GO-Service](https://github.com/user-attachments/assets/ccff528d-9897-4cd6-9e89-694feb11ad7c)
-
+This library provides a clean, modular architecture for managing system services that can run across different platforms.
 
 ## Features
 
-- **Clean Architecture**: Modular design with platform-agnostic core
-- **Cross-Platform**: Supports Windows, Linux and macOS
-- **Service Management**: Easy installation, status checking and lifecycle management
-- **No Dependency**: No dependency on external libraries
-- **Build Automation**: TaskFile for consistent build and management commands
+- **Cross-Platform Service Management**: Supports Windows, Linux, and macOS.
+- **Simple API**: Easy-to-use functions for service installation, uninstallation, starting, and stopping.
+- **No External Dependencies**: Relies only on the Go standard library and platform-specific APIs.
 
-## Project Overview
+## Getting Started
+
+To use this library in your Go project:
 
 ```bash
-go-service/
-├── Makefile                 # Build and installation automation
-├── cmd/
-│   └── service/
-│       └── main.go          # Main entry point with CLI flags and command handling
-├── internal/
-│   ├── service/
-│   │   └── service.go       # Core service implementation
-│   └── platform/            # Platform-specific implementations
-│       ├── config.go        # Configuration constants
-│       ├── service.go       # Cross-platform service interface
-│       ├── windows.go       # Windows-specific service management
-│       ├── linux.go         # Linux-specific systemd service management
-│       └── darwin.go        # macOS-specific launchd service management
-└── go.mod                   # Go module definition
+go get github.com/your-username/go-service
 ```
 
-For detailed instructions, check the [Medium](https://medium.com/@ansxuman/building-cross-platform-system-services-in-go-a-step-by-step-guide-5784f96098b4) article for a step-by-step guide.If you don’t have a Medium membership, you can also find the article on [dev.to.](https://dev.to/ansxuman/building-cross-platform-system-services-in-go-a-step-by-step-guide-18mc)
+Replace `github.com/your-username/go-service` with the actual import path of your repository.
 
-## Donations
+## Usage
 
-If you find this content useful, please consider donating to support its development and future improvements.
+```go
+package main
 
-<a href="https://buymeacoffee.com/ansxuman" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+import (
+	"context"
+	"log"
+	"time"
 
+	"github.com/your-username/go-service/internal/service"
+)
+
+func main() {
+	// Define service parameters
+	executablePath := "/path/to/your/executable"
+	serviceName := "YourServiceName"
+	serviceDescription := "Your Service Description"
+	logFile := "/path/to/your/service.log"
+
+	// Create a new service
+	svc, err := service.New(executablePath, serviceName, serviceDescription, logFile)
+	if err != nil {
+		log.Fatalf("Failed to create service: %v", err)
+	}
+
+	// Install the service
+	err = svc.Install()
+	if err != nil {
+		log.Fatalf("Failed to install service: %v", err)
+	}
+	defer func() {
+		err := svc.Uninstall()
+		if err != nil {
+			log.Printf("Failed to uninstall service: %v", err)
+		}
+	}()
+
+	// Start the service
+	ctx := context.Background()
+	err = svc.Start(ctx)
+	if err != nil {
+		log.Fatalf("Failed to start service: %v", err)
+	}
+	defer func() {
+		err := svc.Stop()
+		if err != nil {
+			log.Printf("Failed to stop service: %v", err)
+		}
+	}()
+
+	// Run the service in immediate mode
+	// err = svc.Run(ctx)
+	// if err != nil {
+	// 	log.Fatalf("Failed to run service: %v", err)
+	// }
+
+	// Keep the application running
+	time.Sleep(time.Hour)
+}
+```
+
+## Project Structure
+
+```
+go-service/
+├── service/
+│   └── service.go       # Core service implementation
+├── platform/            # Platform-specific implementations
+│   ├── service.go       # Cross-platform service interface
+│   ├── windows.go       # Windows-specific service management
+│   ├── linux.go         # Linux-specific systemd service management
+│   └── darwin.go        # macOS-specific launchd service management
+├── go.mod                   # Go module definition
+└── example/		 			# Example service
+    ├── Taskfile.yml         # Task definitions
+    └── README.md            # Instructions
+```
+
+## Example Service
+
+To build and run the example service, follow the instructions in the `example/README.md` file. The example uses [Taskfile](https://taskfile.dev/) to simplify the build and run process.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues to suggest improvements or report bugs.
+
+## Acknowledgements
+
+This project is based on the excellent work of [Anshuman](https://github.com/ansxuman) in creating the original `go-service` project. We would like to thank them for their contributions to the Go community.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

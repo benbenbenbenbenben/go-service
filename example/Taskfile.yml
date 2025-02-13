@@ -1,0 +1,55 @@
+version: '3'
+
+vars:
+  BINARY_NAME: example
+  BUILD_DIR: build
+
+tasks:
+  build:
+    desc: Build the example service binary for current platform
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
+      - go build -v -ldflags "-s -w" -o {{.BUILD_DIR}}/{{.BINARY_NAME}} ./main.go
+
+  install:
+    desc: Install the example service
+    deps: [build]
+    cmds:
+      - sudo ./{{.BUILD_DIR}}/{{.BINARY_NAME}} -install
+
+  uninstall:
+    desc: Uninstall the example service
+    cmds:
+      - sudo ./{{.BUILD_DIR}}/{{.BINARY_NAME}} -uninstall
+
+  run:
+    desc: Run the example service in immediate mode
+    deps: [build]
+    cmds:
+      - ./{{.BUILD_DIR}}/{{.BINARY_NAME}}
+
+  start:
+    desc: Start the example service
+    deps: [build]
+    cmds:
+      - sudo ./{{.BUILD_DIR}}/{{.BINARY_NAME}} -start
+  
+  stop:
+    desc: Stop the example service
+    cmds:
+      - sudo ./{{.BUILD_DIR}}/{{.BINARY_NAME}} -stop
+
+  status:
+    desc: Show the status of the example service
+    cmds:
+      - sudo ./{{.BUILD_DIR}}/{{.BINARY_NAME}} -status
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf {{.BUILD_DIR}}
+
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
