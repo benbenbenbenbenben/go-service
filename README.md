@@ -28,7 +28,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/benbenbenbenbenben/goservice/platform"
+	"github.com/benbenbenbenbenben/goservice"
 )
 
 func main() {
@@ -38,7 +38,7 @@ func main() {
 	serviceDescription := "Your Service Description"
 
 	// Create a new service
-	svc, err := platform.NewService(executablePath, serviceName, serviceDescription)
+	svc, err := goservice.NewService(executablePath, serviceName, serviceDescription)
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}
@@ -72,18 +72,16 @@ func main() {
 ## Project Structure
 
 ```
-goservice/
-├── example.Dockerfile     # Dockerfile for the example service
-├── README.md              # Project documentation
-├── platform/              # Platform-specific implementations
-│   ├── service.go         # Cross-platform service interface
-│   ├── windows.go         # Windows-specific service management
-│   ├── linux.go           # Linux-specific systemd service management
-│   └── darwin.go          # macOS-specific launchd service management
-└── example/               # Example service
-    ├── main.go            # The example service program
-    ├── Taskfile.yml       # Task definitions
-    └── README.md          # Instructions
+goservice
+├── service.go             # Main service implementation
+├── example/               # Example service directory
+│   ├── main.go            # Example service entry point
+│   └── Taskfile.yml       # Taskfile for simplifying build and run processes
+└── platform/              # Platform-specific implementations
+    ├── copyFile.go        # Utility function for copying files
+    ├── darwin.go          # macOS-specific service implementation
+    ├── linux.go           # Linux-specific service implementation
+    └── windows.go         # Windows-specific service implementation
 ```
 
 ## Example Service
