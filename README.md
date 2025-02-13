@@ -35,7 +35,7 @@ import (
 
 func main() {
 	// Define service parameters
-	executablePath := "/path/to/your/executable"
+	executablePath := "/path/to/your/executable" // or os.Executable() to self-install
 	serviceName := "YourServiceName"
 	serviceDescription := "Your Service Description"
 
