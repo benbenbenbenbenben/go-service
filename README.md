@@ -18,8 +18,6 @@ To use this library in your Go project:
 go get github.com/benbenbenbenbenben/go-service
 ```
 
-Replace `github.com/benbenbenbenbenben/go-service` with the actual import path of your repository.
-
 ## Usage
 
 ```go
