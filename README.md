@@ -15,10 +15,10 @@ This library provides a clean, modular architecture for managing system services
 To use this library in your Go project:
 
 ```bash
-go get github.com/your-username/go-service
+go get github.com/benbenbenbenbenben/go-service
 ```
 
-Replace `github.com/your-username/go-service` with the actual import path of your repository.
+Replace `github.com/benbenbenbenbenben/go-service` with the actual import path of your repository.
 
 ## Usage
 
@@ -30,7 +30,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/your-username/go-service/internal/service"
+	"github.com/benbenbenbenbenben/go-service/platform/service"
 )
 
 func main() {
@@ -59,8 +59,7 @@ func main() {
 	}()
 
 	// Start the service
-	ctx := context.Background()
-	err = svc.Start(ctx)
+	err = svc.Start()
 	if err != nil {
 		log.Fatalf("Failed to start service: %v", err)
 	}
@@ -70,15 +69,6 @@ func main() {
 			log.Printf("Failed to stop service: %v", err)
 		}
 	}()
-
-	// Run the service in immediate mode
-	// err = svc.Run(ctx)
-	// if err != nil {
-	// 	log.Fatalf("Failed to run service: %v", err)
-	// }
-
-	// Keep the application running
-	time.Sleep(time.Hour)
 }
 ```
 
@@ -86,17 +76,17 @@ func main() {
 
 ```
 go-service/
-├── service/
-│   └── service.go       # Core service implementation
-├── platform/            # Platform-specific implementations
-│   ├── service.go       # Cross-platform service interface
-│   ├── windows.go       # Windows-specific service management
-│   ├── linux.go         # Linux-specific systemd service management
-│   └── darwin.go        # macOS-specific launchd service management
-├── go.mod                   # Go module definition
-└── example/		 			# Example service
-    ├── Taskfile.yml         # Task definitions
-    └── README.md            # Instructions
+├── example.Dockerfile     # Dockerfile for the example service
+├── README.md              # Project documentation
+├── platform/              # Platform-specific implementations
+│   ├── service.go         # Cross-platform service interface
+│   ├── windows.go         # Windows-specific service management
+│   ├── linux.go           # Linux-specific systemd service management
+│   └── darwin.go          # macOS-specific launchd service management
+└── example/               # Example service
+    ├── main.go            # The example service program
+    ├── Taskfile.yml       # Task definitions
+    └── README.md          # Instructions
 ```
 
 ## Example Service
