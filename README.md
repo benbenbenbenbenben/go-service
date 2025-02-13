@@ -1,4 +1,4 @@
-# go-service
+# goservice
 
 This project is a fork of [Anshuman's go-service](https://github.com/ansxuman/go-service) and provides a library for managing system services across different platforms (Windows, Linux, and macOS). It allows developers to easily install, start, stop, and uninstall services from their Go applications.
 
@@ -15,7 +15,7 @@ This library provides a clean, modular architecture for managing system services
 To use this library in your Go project:
 
 ```bash
-go get github.com/benbenbenbenbenben/go-service
+go get github.com/benbenbenbenbenben/goservice
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/benbenbenbenbenben/go-service/platform"
+	"github.com/benbenbenbenbenben/goservice/platform"
 )
 
 func main() {
@@ -72,7 +72,7 @@ func main() {
 ## Project Structure
 
 ```
-go-service/
+goservice/
 ├── example.Dockerfile     # Dockerfile for the example service
 ├── README.md              # Project documentation
 ├── platform/              # Platform-specific implementations

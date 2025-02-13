@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/benbenbenbenbenben/go-service/platform"
+	"github.com/benbenbenbenbenben/goservice/platform"
 )
 
 type Service interface {

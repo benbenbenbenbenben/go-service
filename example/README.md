@@ -1,6 +1,6 @@
 # Example Service
 
-This directory contains an example "Hello, World!" service that demonstrates how to use the `go-service` library.
+This directory contains an example "Hello, World!" service that demonstrates how to use the `goservice` library.
 
 ## Prerequisites
 

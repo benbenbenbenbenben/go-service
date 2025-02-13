@@ -1,3 +1,3 @@
-module github.com/benbenbenbenbenben/go-service
+module github.com/benbenbenbenbenben/goservice
 
 go 1.23.2

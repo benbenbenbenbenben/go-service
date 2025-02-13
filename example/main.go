@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	gs "github.com/benbenbenbenbenben/go-service"
+	"github.com/benbenbenbenbenben/goservice"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("Failed to get executable path: %v", err)
 	}
 
-	svc, err := gs.NewService(executablePath, "HelloWorldService", "A simple Hello World service")
+	svc, err := goservice.NewService(executablePath, "HelloWorldService", "A simple Hello World service")
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}
